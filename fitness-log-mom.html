@@ -124,11 +124,13 @@ details.card .body b{color:var(--txt);font-weight:700}
 .macro-top{display:flex;justify-content:space-between;align-items:baseline;font-size:12px;color:var(--muted)}
 .macro-top b{color:var(--txt);font-size:13px}
 .macro-top em{font-style:normal;color:var(--muted);font-size:11px;font-weight:400}
-.food-row{display:flex;align-items:center;gap:8px;padding:11px 0;border-top:1px solid var(--line);font-size:14px}
+.food-row{display:flex;align-items:flex-start;gap:8px;padding:11px 0;border-top:1px solid var(--line);font-size:14px}
 .food-row:first-of-type{border-top:0}
-.food-main{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.food-main{flex:1;min-width:0}
+.food-desc{line-height:1.55;word-break:break-word}
 .tag{display:inline-block;font-size:11px;padding:2px 6px;border-radius:6px;background:#e3f0ec;color:#2f7d6d;margin-right:4px}
-.food-nums{color:var(--muted);font-size:12px;white-space:nowrap}
+.food-nums{color:var(--muted);font-size:12px;margin-top:4px;line-height:1.5}
+.food-empty{color:var(--muted);font-size:14px;text-align:center;padding:16px 0}
 .xbtn{width:34px;height:34px;flex:none;border-radius:9px;border:1px solid var(--line);background:transparent;color:var(--muted);font-size:17px;line-height:1;font-family:inherit}
 .quickrow{display:flex;gap:8px}
 .quickrow .btn{flex:1;padding:13px 6px;font-size:15px}
@@ -544,11 +546,13 @@ function viewFood(){
 
   var entries=list.length ? list.map(function(e){
     return '<div class="food-row">'
-      + '<div class="food-main"><span class="tag">'+esc(e.meal)+'</span><span>'+esc(e.note||'未填写')+'</span></div>'
-      + '<div class="food-nums">'+Math.round(e.kcal||0)+' kcal · P'+Math.round(e.p||0)+'</div>'
+      + '<div class="food-main">'
+      +   '<div class="food-desc"><span class="tag">'+esc(e.meal)+'</span>'+esc(e.note||'未填写')+'</div>'
+      +   '<div class="food-nums">'+Math.round(e.kcal||0)+' kcal · 蛋白 '+Math.round(e.p||0)+'g · 碳水 '+Math.round(e.c||0)+'g · 脂肪 '+Math.round(e.f||0)+'g</div>'
+      + '</div>'
       + '<button class="xbtn" data-act="delfood" data-id="'+e.id+'">×</button>'
       + '</div>';
-  }).join('') : '<div class="empty" style="padding:16px 0">这天还没有记录。</div>';
+  }).join('') : '<div class="food-empty">这天还没有记录，下面可以加一餐。</div>';
 
   return '<div class="card">'
     + '<div class="daynav">'
@@ -567,6 +571,14 @@ function viewFood(){
     + '</div>'
 
     + '<div class="card">'
+    +   '<div class="row between" style="margin-bottom:2px">'
+    +     '<div class="card-title" style="margin:0">当天记录</div>'
+    +     '<div class="muted">'+list.length+' 条 · '+Math.round(t.kcal)+' kcal</div>'
+    +   '</div>'
+    +   entries
+    + '</div>'
+
+    + '<div class="card">'
     +   '<div class="row quickrow">'
     +     '<button class="btn" data-act="copyyesterday">复制昨天</button>'
     +     '<button class="btn" data-act="openpaste">粘贴记录</button>'
@@ -577,8 +589,6 @@ function viewFood(){
     +     '<p class="hint">格式：日期|餐次|食物|热量|蛋白质|碳水|脂肪，日期和餐次可以省略。</p>'
     +   '</div>'
     + '</div>'
-
-    + '<div class="card"><div class="card-title">当天记录</div>'+entries+'</div>'
 
     + '<details class="card"><summary>手动添加一餐</summary><div class="body">'
     +   '<form id="foodForm">'
