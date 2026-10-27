@@ -50,6 +50,18 @@ h3{font-size:17px;margin:0 0 8px}
 .ex-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:10px}
 .ex-name{font-weight:600;font-size:15px}
 .ex-meta{color:var(--muted);font-size:12px;margin-top:2px}
+.start-hint{font-size:12px;color:var(--amber);margin-top:5px;line-height:1.4}
+.thumb{width:66px;height:66px;flex:none;padding:0;border:1px solid var(--line);border-radius:10px;background:#fff;overflow:hidden;cursor:pointer}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.demo-grid figure{margin:0;background:#fff;border-radius:10px;overflow:hidden;border:1px solid var(--line)}
+.demo-grid img{width:100%;aspect-ratio:1/1;object-fit:contain;display:block;background:#fff}
+.demo-grid figcaption{font-size:11px;color:#444;text-align:center;padding:4px 0;background:#eceff3}
+.demo-sub{font-size:13px;font-weight:600;margin-top:10px}
+.exgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.exgrid button{background:none;border:0;padding:0;color:var(--muted);font-size:11px;font-family:inherit;text-align:center;cursor:pointer}
+.exgrid img{width:100%;aspect-ratio:1/1;object-fit:cover;background:#fff;border:1px solid var(--line);border-radius:10px;display:block}
+.exgrid span{display:block;margin-top:5px;line-height:1.3}
 .sets{margin-top:2px}
 .set-row{display:grid;grid-template-columns:20px 1fr 1fr 46px;gap:8px;align-items:center;margin-bottom:8px}
 .idx{color:var(--muted);font-size:13px;text-align:center}
@@ -126,7 +138,7 @@ textarea{width:100%;background:#0f1217;border:1px solid var(--line);border-radiu
 .rest-actions{display:flex;gap:8px}
 .rest-actions button{padding:8px 12px;border-radius:9px;border:1px solid #2f6a4f;background:transparent;color:#a7e8c8;font-size:13px;font-family:inherit;cursor:pointer}
 .modal{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.6);display:flex;align-items:flex-end;justify-content:center;padding:14px}
-.sheet{width:100%;max-width:532px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:env(safe-area-inset-bottom)}
+.sheet{width:100%;max-width:532px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:env(safe-area-inset-bottom);max-height:90vh;overflow:auto}
 .sheet .btn{margin-top:10px}
 .sheet p{color:var(--muted);font-size:13px;margin:6px 0 10px}
 .big{font-size:40px;color:var(--accent);text-align:center;line-height:1.1}
@@ -184,20 +196,20 @@ var KEY='fitlog_v1', DRAFT_KEY='fitlog_draft_v1';
 
 var EX={
   A:[
-    {id:'goblet',name:'高脚杯深蹲',sets:3,reps:'8–12次',rest:120,cue:'哑铃或壶铃抱在胸前，脚略比肩宽，膝盖顺脚尖方向，蹲到大腿接近平行再站起。'},
-    {id:'bench',name:'哑铃平板卧推',sets:3,reps:'8–12次',rest:120,cue:'肩胛后收下沉，哑铃下放到胸口两侧，推到手臂接近伸直但不锁死。'},
-    {id:'row',name:'坐姿绳索划船',sets:3,reps:'10–12次',rest:90,cue:'先收肩胛再拉，肘部贴近身体，回程控制，不要用腰甩。'},
-    {id:'rdl',name:'哑铃罗马尼亚硬拉',sets:3,reps:'8–10次',rest:120,cue:'屈髋不屈腰，哑铃贴腿下滑到腘绳肌明显拉伸，再用臀发力站直。'},
-    {id:'ohp',name:'哑铃坐姿肩推',sets:3,reps:'10–12次',rest:90,cue:'肋骨别外翻，哑铃推到头顶正上方，下放到耳朵高度。'},
-    {id:'plank',name:'平板支撑',sets:3,reps:'20–40秒',rest:45,time:true,cue:'肘在肩正下方，臀腹收紧，腰别塌，保持正常呼吸。'}
+    {id:'goblet',name:'高脚杯深蹲',sets:3,reps:'8–12次',rest:120,start:'哑铃/壶铃 12kg',imgs:[{f:'Goblet_Squat',n:''}],cue:'哑铃或壶铃抱在胸前，脚略比肩宽，膝盖顺脚尖方向，蹲到大腿接近平行再站起。'},
+    {id:'bench',name:'哑铃平板卧推',sets:3,reps:'8–12次',rest:120,start:'每只 8kg（一对 16kg）',imgs:[{f:'Dumbbell_Bench_Press',n:''}],cue:'肩胛后收下沉，哑铃下放到胸口两侧，推到手臂接近伸直但不锁死。'},
+    {id:'row',name:'坐姿绳索划船',sets:3,reps:'10–12次',rest:90,start:'配重 25kg',imgs:[{f:'Seated_Cable_Rows',n:''}],cue:'先收肩胛再拉，肘部贴近身体，回程控制，不要用腰甩。'},
+    {id:'rdl',name:'哑铃罗马尼亚硬拉',sets:3,reps:'8–10次',rest:120,start:'每只 10kg',imgs:[{f:'Romanian_Deadlift',n:''}],cue:'屈髋不屈腰，哑铃贴腿下滑到腘绳肌明显拉伸，再用臀发力站直。（图示为杠铃版，发力方式相同）'},
+    {id:'ohp',name:'哑铃坐姿肩推',sets:3,reps:'10–12次',rest:90,start:'每只 5kg',imgs:[{f:'Dumbbell_Shoulder_Press',n:''}],cue:'肋骨别外翻，哑铃推到头顶正上方，下放到耳朵高度。'},
+    {id:'plank',name:'平板支撑',sets:3,reps:'20–40秒',rest:45,time:true,start:'自重 20–30 秒',imgs:[{f:'Plank',n:''}],cue:'肘在肩正下方，臀腹收紧，腰别塌，保持正常呼吸。'}
   ],
   B:[
-    {id:'legpress',name:'腿举',sets:3,reps:'10–12次',rest:120,cue:'膝盖不锁死，下放到小腿与踏板约90度，脚掌踩稳。'},
-    {id:'pulldown',name:'高位下拉',sets:3,reps:'10–12次',rest:90,cue:'胸口微抬，先沉肩再拉，手柄拉到接近锁骨。'},
-    {id:'incline',name:'上斜哑铃卧推',sets:3,reps:'8–12次',rest:120,cue:'靠背约30度，肘部约45度，别耸肩。'},
-    {id:'legcurl',name:'坐姿腿弯举',sets:3,reps:'12–15次',rest:60,cue:'全程控制，下放慢，别用惯性甩。'},
-    {id:'arms',name:'哑铃弯举 + 绳索下压',sets:2,reps:'12–15次',rest:60,cue:'两个动作连着做算一组；弯举别借力，下压把手臂伸直。'},
-    {id:'carry',name:'农夫行走',sets:3,reps:'30–40秒',rest:60,time:true,cue:'双手提重物，肩胛稳定，小步快走，别耸肩。'}
+    {id:'legpress',name:'腿举',sets:3,reps:'10–12次',rest:120,start:'配重 40kg',imgs:[{f:'Leg_Press',n:''}],cue:'膝盖不锁死，下放到小腿与踏板约90度，脚掌踩稳。'},
+    {id:'pulldown',name:'高位下拉',sets:3,reps:'10–12次',rest:90,start:'配重 25kg',imgs:[{f:'Wide-Grip_Lat_Pulldown',n:'宽握高位下拉'}],cue:'胸口微抬，先沉肩再拉，手柄拉到接近锁骨。'},
+    {id:'incline',name:'上斜哑铃卧推',sets:3,reps:'8–12次',rest:120,start:'每只 6kg',imgs:[{f:'Incline_Dumbbell_Press',n:''}],cue:'靠背约30度，肘部约45度，别耸肩。'},
+    {id:'legcurl',name:'坐姿腿弯举',sets:3,reps:'12–15次',rest:60,start:'配重 15kg',imgs:[{f:'Seated_Leg_Curl',n:''}],cue:'全程控制，下放慢，别用惯性甩。'},
+    {id:'arms',name:'哑铃弯举 + 绳索下压',sets:2,reps:'12–15次',rest:60,start:'弯举每只 5kg / 下压 15kg',imgs:[{f:'Dumbbell_Bicep_Curl',n:'哑铃弯举'},{f:'Triceps_Pushdown',n:'绳索下压'}],cue:'两个动作连着做算一组；弯举别借力，下压把手臂伸直。'},
+    {id:'carry',name:'农夫行走',sets:3,reps:'30–40秒',rest:60,time:true,start:'每手 10kg',imgs:[{f:'Farmers_Walk',n:''}],cue:'双手提重物，肩胛稳定，小步快走，别耸肩。'}
   ]
 };
 
@@ -274,7 +286,7 @@ function nextType(){
   return last && last.type==='A' ? 'B' : 'A';
 }
 function phaseHint(w){
-  if(w<=2) return '动作学习期：每组留 3–4 次余力，先把动作做标准。';
+  if(w<=2) return '动作学习期：每个动作 2 组，每组留 3–4 次余力，先把动作做标准。';
   if(w<=6) return '建立负荷期：3 组，RPE 7–8，每周争取多 1 次或加一点重量。';
   if(w<=11) return '强化期：最后一组可以到 RPE 8–9，但仍然保持动作稳定。';
   return '减载周：组数减到 2 组，重量降 40%，让身体恢复。';
@@ -309,10 +321,20 @@ function viewTrain(){
   +   '每天约 <b>2000 kcal</b>；蛋白质 <b>135g</b>；脂肪 <b>58g</b>；碳水 <b>230g</b>。'
   +   '<br>简易版：每餐蛋白质一掌心、蔬菜两拳、主食一拳、脂肪一拇指。'
   + '</div></details>'
-  + '<details class="card"><summary>怎么把本页装到手机主屏幕</summary><div class="body">'
-  +   '1. 用微信「文件传输助手」把 fitness-log.html 发给自己，在手机上点开文件；'
-  +   '2. 右上角「…」选择「用浏览器打开」（不要在微信里直接用）；'
-  +   '3. 浏览器菜单里选「添加到主屏幕」，之后像 App 一样点开，离线可用。'
+  + '<details class="card"><summary>第一次的重量参考（70kg 男性）</summary><div class="body">'
+  +   '<b>训练A</b>：高脚杯深蹲 12kg · 哑铃卧推 每只8kg · 坐姿划船 25kg · 罗马尼亚硬拉 每只10kg · 肩推 每只5kg · 平板 20–30秒<br>'
+  +   '<b>训练B</b>：腿举 40kg · 高位下拉 25kg · 上斜卧推 每只6kg · 腿弯举 15kg · 弯举 每只5kg · 农夫行走 每手10kg<br>'
+  +   '原则：宁轻勿重。做完还能再做 3–4 次就对了；器械配重各品牌不同，以感觉为准。'
+  + '</div></details>'
+  + '<details class="card"><summary>动作库（看图）</summary><div class="body">'
+  +   '<div class="exgrid">'
+  +   EX.A.concat(EX.B).map(function(d){
+        return '<button data-act="demo" data-name="'+esc(d.name)+'">'+imgTag(d.imgs[0].f,0)+'<span>'+esc(d.name)+'</span></button>';
+      }).join('')
+  +   '</div>'
+  + '</div></details>'
+  + '<details class="card"><summary>怎么更新这个页面</summary><div class="body">'
+  +   '把这个 HTML 文件重新上传到 GitHub 同名位置覆盖，手机下拉刷新即可。数据不会丢。'
   + '</div></details>';
 }
 
@@ -334,8 +356,11 @@ function viewActive(){
     return '<div class="card ex">'
       + '<div class="ex-head"><div>'
       +   '<div class="ex-name">'+(ei+1)+'. '+def.name+'</div>'
-      +   '<div class="ex-meta">'+def.sets+' 组 × '+def.reps+' · 组间休息 '+(def.rest>=60?(def.rest/60)+' 分':def.rest+' 秒')+'</div>'
-      + '</div></div>'
+      +   '<div class="ex-meta">'+e.sets.length+' 组 × '+def.reps+' · 组间休息 '+(def.rest>=60?(def.rest/60)+' 分':def.rest+' 秒')+'</div>'
+      +   (e.first ? '<div class="start-hint">首次参考：'+def.start+'</div>' : '')
+      + '</div>'
+      + '<button class="thumb" data-act="demo" data-name="'+esc(def.name)+'">'+imgTag(def.imgs[0].f,0)+'</button>'
+      + '</div>'
       + '<div class="sets">'+rows+'</div>'
       + '<details class="cue"><summary>动作要点</summary><p>'+def.cue+'</p></details>'
       + '</div>';
@@ -348,6 +373,12 @@ function viewActive(){
     + '</div>'
     + '<div class="muted" style="margin-top:8px">已完成 <span id="doneCount">'+doneCount()+'</span> 组 · 点 ✓ 自动开始休息计时</div>'
     + '</div>'
+    + '<details class="card"><summary>第一次练，重量怎么定？</summary><div class="body">'
+    +   '1. 先用卡片上标的「首次参考」重量，做一组 10 次；<br>'
+    +   '2. 做完还能轻松再做 4 次以上 → 加重；做不到 8 次或动作变形 → 减重；<br>'
+    +   '3. 合适的感觉是：每组结束时还能再做 2–3 次；<br>'
+    +   '4. 前两周每个动作只做 2 组，第 3 周开始 3 组。'
+    + '</div></details>'
     + exHtml
     + '<button class="btn primary wide" data-act="finish">完成训练</button>';
 }
@@ -530,6 +561,8 @@ function render(){
 
 /* ---------- 训练流程 ---------- */
 
+function phaseSets(){ var w=weekNo(); return (w<=2||w>=12)?2:3; }
+
 function buildDraft(type){
   var last=null;
   for(var i=state.sessions.length-1;i>=0;i--){
@@ -542,12 +575,13 @@ function buildDraft(type){
         if(last.entries[j].id===def.id){ prev=last.entries[j]; break; }
       }
     }
+    var count=Math.min(def.sets, phaseSets());
     var sets=[];
-    for(var k=0;k<def.sets;k++){
+    for(var k=0;k<count;k++){
       var p=prev ? (prev.sets[k] || prev.sets[prev.sets.length-1]) : null;
       sets.push({w:p?p.w:'', r:p?p.r:'', done:false});
     }
-    return {id:def.id, name:def.name, sets:sets};
+    return {id:def.id, name:def.name, first:!prev, sets:sets};
   });
   return {type:type, date:today(), start:nowMs(), entries:entries};
 }
@@ -630,6 +664,37 @@ function stopRest(){
 
 var modal=document.getElementById('modal');
 
+function imgTag(folder,idx){
+  var cdn='https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/'+folder+'/'+idx+'.jpg';
+  var raw='https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/'+folder+'/'+idx+'.jpg';
+  return '<img src="'+cdn+'" data-raw="'+raw+'" alt="" loading="lazy">';
+}
+function findEx(name){
+  var all=EX.A.concat(EX.B);
+  for(var i=0;i<all.length;i++){ if(all[i].name===name) return all[i]; }
+  return null;
+}
+function openDemo(name){
+  var ex=findEx(name);
+  if(!ex) return;
+  var body=ex.imgs.map(function(it){
+    return (it.n?'<div class="demo-sub">'+esc(it.n)+'</div>':'')
+      + '<div class="demo-grid">'
+      +   '<figure>'+imgTag(it.f,0)+'<figcaption>起始</figcaption></figure>'
+      +   '<figure>'+imgTag(it.f,1)+'<figcaption>结束</figcaption></figure>'
+      + '</div>';
+  }).join('');
+  var q=encodeURIComponent(ex.name+' 教学 动作');
+  modal.innerHTML='<div class="sheet">'
+    + '<h3>'+esc(ex.name)+'</h3>'
+    + body
+    + '<p class="hint">图片来自 free-exercise-db（公共领域），示意动作轨迹；器械和拍摄角度可能与你健身房略有差异。</p>'
+    + '<a class="btn" href="https://search.bilibili.com/all?keyword='+q+'" target="_blank" rel="noopener">在 B 站看视频教学</a>'
+    + '<button class="btn primary" data-act="close">关闭</button>'
+    + '</div>';
+  modal.hidden=false;
+}
+
 function showSummary(s){
   modal.innerHTML='<div class="sheet">'
     + '<div class="big">✓</div>'
@@ -671,6 +736,14 @@ function closeModal(){
 }
 
 /* ---------- 事件 ---------- */
+
+document.addEventListener('error', function(ev){
+  var img=ev.target;
+  if(img && img.tagName==='IMG' && img.dataset && img.dataset.raw && !img.dataset.fb){
+    img.dataset.fb='1';
+    img.src=img.dataset.raw;
+  }
+}, true);
 
 document.addEventListener('click', function(ev){
   var el=ev.target.closest('[data-act]');
@@ -753,6 +826,7 @@ document.addEventListener('click', function(ev){
     save(); render();
     return;
   }
+  if(act==='demo'){ openDemo(el.dataset.name); return; }
   if(act==='settings'){ openSettings(); return; }
   if(act==='close'){ closeModal(); return; }
   if(act==='export'){ doExport(); return; }
